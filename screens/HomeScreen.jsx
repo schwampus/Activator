@@ -1,13 +1,20 @@
 import {View, Text, StyleSheet, Button, StatusBar} from "react-native";
+import { useFonts } from 'expo-font';
 
-export default function HomeScreen() {
+
+
+
+
+export default function HomeScreen({ navigation }) {
+
+  
   return (
     <View style={styles.container}>
       <Text style={styles.prehero}>welcome to</Text>
       <Text style={styles.herotitle}>ACT!V8R</Text>
       
         <Button
-              title="enter now"
+              title="enter now" onPress={ () => navigation.navigate("Setup")  }
              
             />
 
