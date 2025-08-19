@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, DefaultTheme, useNavigation, } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import SetupScreen from './screens/SetupScreen';
+import DashboardScreen from './screens/DashboardScreen';
 import { useCallback, useEffect, useState} from 'react';
 
 const Stack = createNativeStackNavigator();
@@ -65,6 +66,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Setup" component={SetupScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
