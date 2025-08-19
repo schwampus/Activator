@@ -3,8 +3,7 @@ import { useCallback, useEffect, useState, useMemo,} from 'react';
 import { SelectList } from 'react-native-dropdown-select-list'
 import { SquareArrowDown } from 'lucide-react';
 import RadioGroup from 'react-native-radio-buttons-group';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import {Calendar, Agenda} from 'react-native-calendars';
 
 
 
@@ -19,7 +18,7 @@ import {
 
 
 
-export default function SetupScreen({ navigation }) {
+export default function SetupScreen() {
    
   const [name, onChangeName] = useState('');
   const [age, onChangeAge] = useState('');
@@ -64,138 +63,52 @@ export default function SetupScreen({ navigation }) {
         }
     ]), []);
 
-    const [selectedId, setSelectedId] = useState('1');
-    
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
- 
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleConfirm = (date) => {
-  setSelectedDate(date); 
-  hideDatePicker();
-};
-
-    
+    const [selectedId, setSelectedId] = useState();
 
 return (<>
   <View style={styles.wrapper}>
     <View style={styles.container}>
-      <Text style={styles.setupTitle}>US3R S3TUP</Text>
+      <Text style={styles.setupTitle}>W3LCOM3</Text>
     </View>
     <View style={styles.box}>
       {/* Input fields for users personal info */}
-      <View style={styles.inputRow}>
-        <Text style ={styles.label}>name:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeName}
-          value={name}
-          placeholder="insert your name"
-          placeholderTextColor="#505050" /> 
-      </View>
-      <View style={styles.inputRow}>
-        <Text style ={styles.label}>age:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeAge}
-          value={age}
-          keyboardType="numeric"
-          placeholder="insert your age"
-          placeholderTextColor="#505050" />
-      </View>
+      <View>
+        <Text style ={styles.freqLabel}>upcoming workout:</Text>
         
-     <View style={styles.inputRow}>
-        <Text style ={styles.label}>height:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeHeight}
-          value={height}
-          keyboardType="numeric"
-          placeholder="insert your height"
-          placeholderTextColor="#505050"/>
-     </View>
-     <View style={styles.inputRow}>
-       <Text style ={styles.label}>weight:</Text>
-       <TextInput
-          style={styles.input}
-          onChangeText={onChangeWeight}
-          value={weight}
-          keyboardType="numeric"
-          placeholder="insert your weight"
-          placeholderTextColor="#505050"/>
-    </View> 
- {/* Dropdown selector for user to choose training plan */}
-    <View style={styles.planSelector}>
-        <Text style ={styles.planLabel}>select your training plan:</Text>
-         <SelectList
-         boxStyles={{borderRadius:0, backgroundColor: "#22181c", }}
-         inputStyles={{color: "#f7fff7", fontSize:20,}}
-           arrowicon={<Text style={{ color: "#505050", fontSize: 16 }}>▼</Text>}
-           dropdownStyles={{borderRadius:0, backgroundColor: "#22181c",margin:0 }}
-           dropdownTextStyles={{ color: "#505050", fontSize: 16 }}
-          setSelected={setSelectedplan}
-          data={workoutPlans}
-          save="value"
-          placeholder="premade plans"
-          search={false} 
-          fontFamily='TurretMedium'
-        />
-
-    </View>
-    {/* radio selector for user to choose workout freq */}
-  <View style={styles.freqSelector}>
-          <Text style={styles.freqLabel}>how often do you workout now?</Text>
-          <View style={styles.radioContainer}>
-            <View style={styles.radioGroupRow}>
-              {radioButtons.map((btn) => (
-                <View key={btn.id} style={styles.radioOption}>
-                  <TouchableOpacity
-                    style={[
-                      styles.radioCircle,
-                      selectedId === btn.id && styles.radioCircleSelected,
-                    ]}
-                    onPress={() => setSelectedId(btn.id)}
-                  />
-                  
-                </View>
-              ))}
+      </View>
+     
+      <View style={styles.inputRow}>
+              <Text style ={styles.label}>type:</Text>
+              <Text
+                style={styles.input}> Long run </Text> 
             </View>
-           <Text style={styles.selectedValueText}>
-         {radioButtons.find(btn => btn.id === selectedId)?.label || 'none'}
-        </Text>
+            <View style={styles.inputRow}>
+              <Text style ={styles.label}>distance:</Text>
+              <Text
+                style={styles.input}> 8 km </Text> 
+            </View>
+            <View style={styles.inputRow}>
+              <Text style ={styles.label}>pace:</Text>
+             <Text
+                style={styles.input}> Easy -  6 min / km </Text> 
+           </View>
+           <View style={styles.inputRow}>
+             <Text style ={styles.label}>intervals:</Text>
+             <Text
+                style={styles.input}> not today </Text> 
           </View>
-        </View>
+     
+
+
     {/* calender date selector */}
   <View style={styles.dateSelector}>
-          <Text style={styles.dateLabel}>when is your race?</Text>
+         
           <View style={styles.dateContainer}>
-          
-             <Button title="open the date picker" onPress={showDatePicker} />
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-      <Text style={styles.selectedValueText}>
-         {selectedDate ? selectedDate.toDateString() : 'no date selected'}
-        </Text>
+           
+           
           </View>
         </View>
-          <Button style={styles.button}
-              title="generate plan" onPress={ () => navigation.navigate("Dashboard")  }
-             
-            />  
+        
       
       </View>
     </View>
@@ -219,15 +132,10 @@ const styles = StyleSheet.create({
     marginLeft:24,
     marginRight:24,
     padding:18,
-    height:640,
+    height:660,
     backgroundColor:'#f7fff7',
     alignItems: 'center',
-    overflow: 'hidden'
     },
-    button: {
-    
-    
-  },
    inputRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -267,12 +175,14 @@ const styles = StyleSheet.create({
     
   },
   dateSelector: {
+    flex:1,
     marginTop:18,
+    height:220,
     color: '#f7fff7',
     width: '100%',
     alignItems: "center",
     justifyContent: "flex-start",
-    marginBottom:12
+    backgroundColor: "#c6658cff",
   },
    planLabel: {
     width:380,
@@ -304,12 +214,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dateContainer: {
-   paddingTop:14,
    backgroundColor: "#22181c",
     borderRadius: 0,
-    color: '#f7fff7',
+    padding: 12,
     width: '100%',
-    height:120,
+    height:160,
     alignItems: 'center',
   },
   smallTextLight: {

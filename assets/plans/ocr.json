@@ -1,0 +1,160 @@
+{
+	"ocr_plan": [
+		{
+			"week": 1,
+			"days": [
+				{
+					"day": 1,
+					"type": "Run Intervals",
+					"distance_km": 5,
+					"pace": "Interval pace (4:45-5:15 /km)",
+					"intervals": "10 x 200m sprints with 200m jog recovery"
+				},
+				{
+					"day": 2,
+					"type": "Strength & Obstacle Prep",
+					"workout": [
+						"Pull-ups: 5 x max reps",
+						"Push-ups: 5 x 20",
+						"Sit-ups: 5 x 25",
+						"Burpees: 5 x 15",
+						"Plank holds: 3 x 1 min"
+					],
+					"note": "Focus on grip and core strength"
+				},
+				{
+					"day": 3,
+					"type": "Combo Workout",
+					"distance_km": 3,
+					"pace": "Easy jog (5:45-6:15 /km)",
+					"workout": [
+						"Run 500m → 20 push-ups",
+						"Run 500m → 10 pull-ups",
+						"Run 500m → 20 sit-ups",
+						"Repeat until 3km completed"
+					]
+				}
+			]
+		},
+		{
+			"week": 2,
+			"days": [
+				{
+					"day": 1,
+					"type": "Hill Sprints",
+					"distance_km": 4,
+					"pace": "Hard effort uphill",
+					"intervals": "12 x 100m uphill sprints with walk down recovery"
+				},
+				{
+					"day": 2,
+					"type": "Strength Circuit",
+					"workout": [
+						"Pull-ups: 6 x max reps",
+						"Push-ups: 6 x 20",
+						"Hanging knee raises: 5 x 15",
+						"Burpees: 5 x 20",
+						"Farmers carry (if weights available): 4 x 50m"
+					]
+				},
+				{
+					"day": 3,
+					"type": "Yoga & Core",
+					"workout": [
+						"30 min yoga (focus on mobility, hip openers, balance)",
+						"Pilates: 20 min core focus"
+					],
+					"note": "Active recovery but builds flexibility & endurance"
+				}
+			]
+		},
+		{
+			"week": 3,
+			"days": [
+				{
+					"day": 1,
+					"type": "Interval Run",
+					"distance_km": 5,
+					"pace": "4:50-5:10 /km",
+					"intervals": "8 x 400m fast with 200m jog recovery"
+				},
+				{
+					"day": 2,
+					"type": "Strength & Obstacle Simulation",
+					"workout": [
+						"Pull-ups: 7 x max reps",
+						"Push-ups: 7 x 20",
+						"Toes-to-bar or hanging leg raises: 5 x 12",
+						"Rope climbs (or towel pull-ups): 5 attempts",
+						"Burpees: 100 total (broken into sets)"
+					],
+					"note": "Hardest strength day"
+				},
+				{
+					"day": 3,
+					"type": "Combo Run + Strength",
+					"distance_km": 4,
+					"pace": "Easy jog (6:00 /km)",
+					"workout": [
+						"Run 1 km → 10 pull-ups + 30 push-ups",
+						"Run 1 km → 20 sit-ups + 20 burpees",
+						"Run 1 km → 1 min plank hold + 15 push-ups",
+						"Run 1 km → 10 pull-ups + 20 sit-ups"
+					]
+				}
+			]
+		},
+		{
+			"week": 4,
+			"days": [
+				{
+					"day": 1,
+					"type": "Light Run",
+					"distance_km": 3,
+					"pace": "Relaxed jog (6:00-6:30 /km)"
+				},
+				{
+					"day": 2,
+					"type": "Bodyweight Maintenance",
+					"workout": [
+						"Pull-ups: 4 x max reps",
+						"Push-ups: 4 x 15",
+						"Sit-ups: 4 x 20",
+						"Plank holds: 3 x 45s"
+					],
+					"note": "Keep it light"
+				},
+				{
+					"day": 3,
+					"type": "Yoga & Mobility",
+					"workout": ["30 min yoga", "15 min pilates core"]
+				}
+			]
+		},
+		{
+			"week": 5,
+			"days": [
+				{
+					"day": 1,
+					"type": "Shakeout Run",
+					"distance_km": 3,
+					"pace": "Very easy jog (6:15-6:45 /km)"
+				},
+				{
+					"day": 2,
+					"type": "Light Strength",
+					"workout": ["Pull-ups: 3 x 5", "Push-ups: 3 x 15", "Sit-ups: 3 x 20"],
+					"note": "Keep muscles activated but fresh"
+				},
+				{
+					"day": 3,
+					"type": "Race Day - OCR",
+					"distance_km": 5,
+					"pace": "Race effort",
+					"obstacles": "100+ obstacles including climbs, carries, crawls, grip strength challenges",
+					"note": "Give max effort, pace yourself through obstacles"
+				}
+			]
+		}
+	]
+}

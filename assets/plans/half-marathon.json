@@ -1,0 +1,137 @@
+{
+	"half-marathon_plan": [
+		{
+			"week": 1,
+			"days": [
+				{
+					"day": 1,
+					"type": "Easy Run",
+					"distance_km": 6,
+					"pace": "Easy (5:45-6:15 /km)",
+					"intervals": null
+				},
+				{
+					"day": 2,
+					"type": "Intervals",
+					"distance_km": 8,
+					"pace": "4:55-5:05 /km on intervals",
+					"intervals": "8 x 400m with 200m jog recovery"
+				},
+				{
+					"day": 3,
+					"type": "Long Run",
+					"distance_km": 14,
+					"pace": "Easy (5:50-6:20 /km)",
+					"intervals": null
+				}
+			]
+		},
+		{
+			"week": 2,
+			"days": [
+				{
+					"day": 1,
+					"type": "Easy Run",
+					"distance_km": 7,
+					"pace": "Easy (5:45-6:15 /km)",
+					"intervals": null
+				},
+				{
+					"day": 2,
+					"type": "Intervals",
+					"distance_km": 9,
+					"pace": "4:50-5:00 /km on intervals",
+					"intervals": "6 x 800m with 400m jog recovery"
+				},
+				{
+					"day": 3,
+					"type": "Long Run",
+					"distance_km": 16,
+					"pace": "Easy (5:50-6:20 /km)",
+					"intervals": null
+				}
+			]
+		},
+		{
+			"week": 3,
+			"days": [
+				{
+					"day": 1,
+					"type": "Easy Run",
+					"distance_km": 6,
+					"pace": "Easy (6:00-6:20 /km)",
+					"intervals": null
+				},
+				{
+					"day": 2,
+					"type": "Intervals",
+					"distance_km": 10,
+					"pace": "4:50-4:55 /km on intervals",
+					"intervals": "4 x 1600m with 400m jog recovery"
+				},
+				{
+					"day": 3,
+					"type": "Long Run",
+					"distance_km": 18,
+					"pace": "Easy (5:50-6:20 /km)",
+					"intervals": null,
+					"note": "Longest run - peak training"
+				}
+			]
+		},
+		{
+			"week": 4,
+			"days": [
+				{
+					"day": 1,
+					"type": "Easy Run",
+					"distance_km": 5,
+					"pace": "Relaxed (6:00-6:30 /km)",
+					"intervals": null
+				},
+				{
+					"day": 2,
+					"type": "Intervals (Light)",
+					"distance_km": 6,
+					"pace": "5:00-5:15 /km on intervals",
+					"intervals": "6 x 400m with 200m jog recovery"
+				},
+				{
+					"day": 3,
+					"type": "Pre-Race Easy Run",
+					"distance_km": 10,
+					"pace": "Easy (6:00-6:20 /km)",
+					"intervals": null,
+					"note": "Keep it easy - race week"
+				}
+			]
+		},
+		{
+			"week": 5,
+			"days": [
+				{
+					"day": 1,
+					"type": "Shakeout Run",
+					"distance_km": 4,
+					"pace": "Very Easy (6:15-6:45 /km)",
+					"intervals": null
+				},
+				{
+					"day": 2,
+					"type": "Shakeout Run",
+					"distance_km": 3,
+					"pace": "Very Easy (6:15-6:45 /km)",
+					"intervals": null
+				},
+				{
+					"day": 3,
+					"type": "Race Day",
+					"distance_km": 21.1,
+					"pace": "Target Half-Marathon Pace (adjust individually)",
+					"intervals": null,
+					"note": "Race day – enjoy and push your pace!"
+				}
+			]
+		}
+	]
+}
