@@ -4,6 +4,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { SquareArrowDown } from 'lucide-react';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from 'date-fns';
 
 
 
@@ -21,79 +22,62 @@ import {
 
 export default function SetupScreen({ navigation }) {
    
-  const [name, onChangeName] = useState('');
-  const [age, onChangeAge] = useState('');
-  const [height, onChangeHeight] = useState('');
-  const [weight, onChangeWeight] = useState('');
+const [name, onChangeName] = useState('');
+const [age, onChangeAge] = useState('');
+const [height, onChangeHeight] = useState('');
+const [weight, onChangeWeight] = useState('');
+const [selectedPlan, setSelectedPlan] = useState("");
+const [selectedFreq, setSelectedFreq] = useState('1');
+const [selectedDate, setSelectedDate] = useState(null);
+const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
 
-
-  const workoutPlans = [
+const workoutPlans = [
     { key: '1', value: 'half-marathon - 21 km' },
     { key: '2', value: 'marathon - 42 km' },
     { key: '3', value: 'ocr - obstacle course run' },
   ];
 
-  const [selectedplan, setSelectedplan] = useState("");
+const radioButtons = useMemo(() => ([
+      { id: '1',  label: 'never', value: 'option1' },
+      { id: '2', label: 'once a week', value: 'option2' },
+      { id: '3', label: 'twice a week', value: 'option3' },
+      { id: '4', label: '3 times a week', value: 'option4' },
+      { id: '5', label: '5 times a week', value: 'option5' }
+        ]), []);
 
-  const radioButtons = useMemo(() => ([
-        {
-            id: '1', // acts as primary key, should be unique and non-empty string
-            label: 'never',
-            value: 'option1'
-        },
-        {
-            id: '2',
-            label: 'once a week',
-            value: 'option2'
-        },
-        {
-            id: '3',
-            label: 'twice a week',
-            value: 'option3'
-        },
-        {
-            id: '4',
-            label: '3 times a week',
-            value: 'option4'
-        },
-        {
-            id: '5',
-            label: '5 times a week',
-            value: 'option5'
-        }
-    ]), []);
 
-    const [selectedId, setSelectedId] = useState('1');
-    
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const showDatePicker = () => {
+{/* open and close date picker */}      
+const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
-
-  const hideDatePicker = () => {
+const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+const handleConfirm = (date) => {
+    setSelectedDate(date); 
+    hideDatePicker();
+  };
 
- 
+{/* checks that user has put in some critical info before generating plan */}  
+  const validateButton = useMemo(
+        () => name.trim().length > 0 && selectedPlan !== '' && selectedDate !== null,
+        [name, selectedPlan, selectedDate])
 
-  const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleConfirm = (date) => {
-  setSelectedDate(date); 
-  hideDatePicker();
-};
-
+const selectAndGo = () => {
+navigation.navigate("Dashboard", { selectedPlan, selectedDate})
+}
     
 
 return (<>
-  <View style={styles.wrapper}>
-    <View style={styles.container}>
+<View style={styles.body}>
+    <View style={styles.wrapper}>
       <Text style={styles.setupTitle}>US3R S3TUP</Text>
     </View>
     <View style={styles.box}>
-      {/* Input fields for users personal info */}
+
+{/* Input fields for users personal info */}
       <View style={styles.inputRow}>
         <Text style ={styles.label}>name:</Text>
         <TextInput
@@ -113,8 +97,7 @@ return (<>
           placeholder="insert your age"
           placeholderTextColor="#505050" />
       </View>
-        
-     <View style={styles.inputRow}>
+       <View style={styles.inputRow}>
         <Text style ={styles.label}>height:</Text>
         <TextInput
           style={styles.input}
@@ -134,7 +117,8 @@ return (<>
           placeholder="insert your weight"
           placeholderTextColor="#505050"/>
     </View> 
- {/* Dropdown selector for user to choose training plan */}
+
+{/* Dropdown selector for user to choose training plan */}
     <View style={styles.planSelector}>
         <Text style ={styles.planLabel}>select your training plan:</Text>
          <SelectList
@@ -143,16 +127,16 @@ return (<>
            arrowicon={<Text style={{ color: "#505050", fontSize: 16 }}>▼</Text>}
            dropdownStyles={{borderRadius:0, backgroundColor: "#22181c",margin:0 }}
            dropdownTextStyles={{ color: "#505050", fontSize: 16 }}
-          setSelected={setSelectedplan}
+          setSelected={setSelectedPlan}
           data={workoutPlans}
           save="value"
           placeholder="premade plans"
           search={false} 
-          fontFamily='TurretMedium'
+          fontFamily='TurretBold'
         />
-
     </View>
-    {/* radio selector for user to choose workout freq */}
+
+{/* radio selector for user to choose workout freq */}
   <View style={styles.freqSelector}>
           <Text style={styles.freqLabel}>how often do you workout now?</Text>
           <View style={styles.radioContainer}>
@@ -162,16 +146,16 @@ return (<>
                   <TouchableOpacity
                     style={[
                       styles.radioCircle,
-                      selectedId === btn.id && styles.radioCircleSelected,
+                      selectedFreq === btn.id && styles.radioCircleSelected,
                     ]}
-                    onPress={() => setSelectedId(btn.id)}
+                    onPress={() => setSelectedFreq(btn.id)}
                   />
                   
                 </View>
               ))}
             </View>
            <Text style={styles.selectedValueText}>
-         {radioButtons.find(btn => btn.id === selectedId)?.label || 'none'}
+         {radioButtons.find(btn => btn.id === selectedFreq)?.label || 'none'}
         </Text>
           </View>
         </View>
@@ -187,13 +171,18 @@ return (<>
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
-      <Text style={styles.selectedValueText}>
-         {selectedDate ? selectedDate.toDateString() : 'no date selected'}
-        </Text>
+     <Text style={styles.selectedValueText}>
+        {selectedDate ? (
+         <>
+         <Text style={styles.greyText}>your race is on: {"\n"} </Text>
+         <Text style={styles.selectedValueText}>
+        {format(selectedDate, 'dd MMMM yyyy')}</Text>
+         </> ) : ( 'no date selected')}
+      </Text>
           </View>
         </View>
-          <Button style={styles.button}
-              title="generate plan" onPress={ () => navigation.navigate("Dashboard")  }
+          <Button disabled={!validateButton} style={styles.button}
+              title="generate plan" onPress={ selectAndGo }
              
             />  
       
@@ -207,11 +196,11 @@ return (<>
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  body: {
     flex:1,
      backgroundColor: '#1a535c',
   },
-  container: {
+  wrapper: {
     alignItems: 'center',
     },
   box: {
@@ -224,11 +213,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden'
     },
-    button: {
-    
-    
-  },
-   inputRow: {
+    inputRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -297,20 +282,20 @@ const styles = StyleSheet.create({
   },
   radioContainer: {
    backgroundColor: "#22181c",
-    borderRadius: 0,
-    padding: 12,
-    width: '100%',
-    height:90,
-    alignItems: 'center',
+   padding: 12,
+   width: '100%',
+   height:90,
+   alignItems: 'center',
   },
   dateContainer: {
-   paddingTop:14,
+   padding:12,
    backgroundColor: "#22181c",
-    borderRadius: 0,
-    color: '#f7fff7',
-    width: '100%',
-    height:120,
-    alignItems: 'center',
+   color: '#f7fff7',
+   width: '100%',
+   height:120,
+   alignItems: 'center',
+   justifyContent:'center',
+   marginBottom: 6
   },
   smallTextLight: {
     color: '#f7fff7',
@@ -361,9 +346,19 @@ selectedValueText:{
     color: '#f7fff7',
     fontSize:20,
     fontWeight: 400,
-    fontFamily: 'TurretMedium',
-    justifyContent: 'center'
+    fontFamily: 'TurretBold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    lineHeight:26,
+    textTransform: 'lowercase'
+
 },
+greyText:{
+  color: "#505050",
+  fontSize: 18,
+  fontFamily: 'TurretMedium',
+  textAlign: 'center'
+}
 })
 
 

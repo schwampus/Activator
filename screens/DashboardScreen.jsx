@@ -1,12 +1,7 @@
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Button, useColorScheme, StatusBar} from "react-native";
 import { useCallback, useEffect, useState, useMemo,} from 'react';
-import { SelectList } from 'react-native-dropdown-select-list'
-import { SquareArrowDown } from 'lucide-react';
-import RadioGroup from 'react-native-radio-buttons-group';
-import {Calendar, Agenda} from 'react-native-calendars';
-
-
-
+import { useRoute } from '@react-navigation/native';
+import { format } from 'date-fns';
 
 import {
   useNavigation,
@@ -18,96 +13,117 @@ import {
 
 
 
-export default function SetupScreen() {
+export default function DashboardScreen() {
    
-  const [name, onChangeName] = useState('');
-  const [age, onChangeAge] = useState('');
-  const [height, onChangeHeight] = useState('');
-  const [weight, onChangeWeight] = useState('');
+const route = useRoute();
+const { selectedPlan } = route.params;
+const { selectedDate } = route.params;
+const [workoutData, setWorkoutData] = useState(null);
+const [error, setError] = useState(null);
+const [isLoading, setIsLoading] = useState(false);
+const [workoutDays,setWorkoutDays] = useState(null);
 
+const [woType, setWoType] = useState('');
+const [woDistance, setWoDistance] = useState('');
+const [woPace, setWoPace] = useState('');
+const [woIntervals, setWoIntervals] = useState('');
 
+const fetchWorkoutPlan = async (plan) => {
+    if (!plan) return;
 
-  const workoutPlans = [
-    { key: '1', value: 'half-marathon - 21 km' },
-    { key: '2', value: 'marathon - 42 km' },
-    { key: '3', value: 'ocr - obstacle course run' },
-  ];
+    setIsLoading(true);
+    try {
+      let fileName;
+      switch (plan) {
+        case 'half-marathon - 21 km':
+          fileName = 'half-marathon.json';
+          break;
+        case 'marathon - 42 km':
+          fileName = 'marathon.json';
+          break;
+        case 'ocr - obstacle course run':
+          fileName = 'ocr.json';
+          break;
+        default:
+          throw new Error('Invalid plan selected');
+      }
 
-  const [selectedplan, setSelectedplan] = useState("");
+      const url = `https://www.hampusjerkfelt.com/json/${fileName}`;
+      const response = await fetch(url);
 
-  const radioButtons = useMemo(() => ([
-        {
-            id: '1', // acts as primary key, should be unique and non-empty string
-            label: 'never',
-            value: 'option1'
-        },
-        {
-            id: '2',
-            label: 'once a week',
-            value: 'option2'
-        },
-        {
-            id: '3',
-            label: 'twice a week',
-            value: 'option3'
-        },
-        {
-            id: '4',
-            label: '3 times a week',
-            value: 'option4'
-        },
-        {
-            id: '5',
-            label: '5 times a week',
-            value: 'option5'
-        }
-    ]), []);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${fileName}: ${response.status}`);
+      }
 
-    const [selectedId, setSelectedId] = useState();
+      const data = await response.json();
+      setWorkoutData(data);
+      setError(null);
+      
+    } catch (err) {
+      setError(err.message);
+      setWorkoutData(null);
+    } finally {
+      setIsLoading(false);
+      
+    }
+  };
+
+useEffect(() => {
+    if (workoutData && workoutData.training_plan && workoutData.training_plan[0]) {
+      setWorkoutDays(workoutData.training_plan[0].days.length);
+      setWoType(workoutData.training_plan[0].days[0].type)
+      setWoDistance(workoutData.training_plan[0].days[0].distance_km)
+      setWoPace(workoutData.training_plan[0].days[0].pace)
+      setWoIntervals(workoutData.training_plan[0].days[0].intervals)
+    }
+  }, [workoutData]);
+
+  useEffect(() => {
+    fetchWorkoutPlan(selectedPlan);
+  }, [selectedPlan]);
 
 return (<>
   <View style={styles.wrapper}>
     <View style={styles.container}>
-      <Text style={styles.setupTitle}>W3LCOM3</Text>
+      <Text style={styles.iceTitleLight}>W3LCOM3</Text>
     </View>
     <View style={styles.box}>
-      {/* Input fields for users personal info */}
+      
       <View>
-        <Text style ={styles.freqLabel}>upcoming workout:</Text>
-        
+        <Text style={styles.greyText}>your selected workout plan is: </Text>
+       <Text style={styles.iceTitleDark}> {selectedPlan}</Text>
+        <Text style ={styles.greyText}>that means you should workout {workoutDays } times a week from now on to be fit enough for your race on: </Text>
+        <Text style={styles.boldText}> {format(selectedDate, 'dd MMMM yyyy')}  </Text>
       </View>
-     
+      <View style={styles.nextWo}>
+     <Text style={styles.greyText}>Your upcoming workout:</Text> 
       <View style={styles.inputRow}>
               <Text style ={styles.label}>type:</Text>
               <Text
-                style={styles.input}> Long run </Text> 
+                style={styles.input}> {woType}</Text> 
             </View>
             <View style={styles.inputRow}>
               <Text style ={styles.label}>distance:</Text>
               <Text
-                style={styles.input}> 8 km </Text> 
+                style={styles.input}> {woDistance} km</Text> 
             </View>
             <View style={styles.inputRow}>
               <Text style ={styles.label}>pace:</Text>
              <Text
-                style={styles.input}> Easy -  6 min / km </Text> 
+                style={styles.input}> {woPace} </Text> 
            </View>
            <View style={styles.inputRow}>
              <Text style ={styles.label}>intervals:</Text>
              <Text
-                style={styles.input}> not today </Text> 
+                style={styles.input}> {woIntervals ? ({woIntervals}) : "no intervals today" } </Text> 
           </View>
+
+         </View>
      
 
 
-    {/* calender date selector */}
-  <View style={styles.dateSelector}>
-         
-          <View style={styles.dateContainer}>
-           
-           
-          </View>
-        </View>
+    {/*  */}
+ 
         
       
       </View>
@@ -131,7 +147,9 @@ const styles = StyleSheet.create({
     marginTop:4,
     marginLeft:24,
     marginRight:24,
-    padding:18,
+    paddingTop:10,
+    paddingLeft:18,
+    paddingRight:18,
     height:660,
     backgroundColor:'#f7fff7',
     alignItems: 'center',
@@ -150,6 +168,7 @@ const styles = StyleSheet.create({
     fontFamily: 'TurretMedium',
   },
   input: {
+   
    flex: 1,
    height: 40,
    backgroundColor: "#22181c",
@@ -158,7 +177,9 @@ const styles = StyleSheet.create({
    fontSize:16,
    fontWeight: 200,
    fontFamily: 'TurretMedium',
-   alignItems: "center",
+   alignItems: "",
+   justifyContent: 'center',
+   textAlign: 'auto'
    },
   planSelector: {
     marginTop:14,
@@ -174,7 +195,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     
   },
-  dateSelector: {
+  nextWo: {
     flex:1,
     marginTop:18,
     height:220,
@@ -182,7 +203,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "#c6658cff",
+    
   },
    planLabel: {
     width:380,
@@ -227,13 +248,19 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     fontFamily: 'TurretMedium',
   },
-  setupTitle: {
+  iceTitleLight: {
     color: '#f7fff7',
     fontSize:48,
     fontFamily: 'Iceberg',
     textShadowColor:"#22181c",
     textShadowOffset: { width: 2, height: 3 },  
     textShadowRadius: 6
+  },
+  iceTitleDark: {
+    color: "#22181c",
+    fontSize:40,
+    fontFamily: 'Iceberg',
+    
   },
 radioGroupRow: {
   flexDirection: 'row',
@@ -273,6 +300,19 @@ selectedValueText:{
     fontFamily: 'TurretMedium',
     justifyContent: 'center'
 },
+greyText:{
+  color: "#505050",
+  fontSize: 18,
+  fontFamily: 'TurretMedium',
+  textAlign: 'center'
+},
+boldText:{
+  color: "#22181c",
+  fontSize: 18,
+  fontFamily: 'TurretBold',
+  textAlign: 'center',
+  margin:4
+}
 })
 
 
