@@ -1,21 +1,13 @@
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Button, useColorScheme, StatusBar} from "react-native";
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Button,  StatusBar} from "react-native";
 import { useCallback, useEffect, useState, useMemo,} from 'react';
 import { SelectList } from 'react-native-dropdown-select-list'
-import { SquareArrowDown } from 'lucide-react';
+
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from 'date-fns';
 
 
 
-
-
-import {
-  useNavigation,
-  createStaticNavigation,
-  DefaultTheme,
-  useTheme,
-} from '@react-navigation/native';
 
 
 

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, DefaultTheme, useNavigation, } from '@react-navigation/native-stack';
+import { createNativeStackNavigator,  useNavigation, } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import SetupScreen from './screens/SetupScreen';
 import DashboardScreen from './screens/DashboardScreen';
@@ -13,19 +13,12 @@ const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 
-/* const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: '#1a535c',
-    primary: 'rgb(255, 45, 85)',
-  },
-}; */
-
 
 
 
 export default function App() {
+
+  {/* loads custom fonts from asset folder */} 
   const [fontsLoaded, fontError] = useFonts({
     Iceberg: require('./assets/fonts/Iceberg.ttf'),
     TurretRegular: require('./assets/fonts/TurretRoad-Regular.ttf'),
@@ -47,7 +40,7 @@ export default function App() {
   }, [fontsLoaded, fontError, onLayoutRootView]);
 
   if (!fontsLoaded && !fontError) {
-    return null; // Splash screen is still visible
+    return null; 
   }
 
   if (fontError) {

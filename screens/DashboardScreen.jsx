@@ -1,20 +1,12 @@
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Button, useColorScheme, StatusBar} from "react-native";
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Button,  StatusBar} from "react-native";
 import { useCallback, useEffect, useState, useMemo,} from 'react';
 import { useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
 
-import {
-  useNavigation,
-  createStaticNavigation,
-  DefaultTheme,
-  useTheme,
-} from '@react-navigation/native';
-
-
 
 
 export default function DashboardScreen() {
-   
+
 const route = useRoute();
 const { selectedPlan } = route.params;
 const { selectedDate } = route.params;
@@ -28,10 +20,11 @@ const [woDistance, setWoDistance] = useState('');
 const [woPace, setWoPace] = useState('');
 const [woIntervals, setWoIntervals] = useState('');
 
+{/* using route-params we can see what plan was selected on prev screen */} 
+
 const fetchWorkoutPlan = async (plan) => {
     if (!plan) return;
-
-    setIsLoading(true);
+   setIsLoading(true);
     try {
       let fileName;
       switch (plan) {
@@ -47,7 +40,7 @@ const fetchWorkoutPlan = async (plan) => {
         default:
           throw new Error('Invalid plan selected');
       }
-
+  {/* fetch the corresponding file to plan */} 
       const url = `https://www.hampusjerkfelt.com/json/${fileName}`;
       const response = await fetch(url);
 
@@ -67,6 +60,8 @@ const fetchWorkoutPlan = async (plan) => {
       
     }
   };
+
+{/* add fetched info to screen using variables */} 
 
 useEffect(() => {
     if (workoutData && workoutData.training_plan && workoutData.training_plan[0]) {
@@ -88,8 +83,7 @@ return (<>
       <Text style={styles.iceTitleLight}>W3LCOM3</Text>
     </View>
     <View style={styles.box}>
-      
-      <View>
+       <View>
         <Text style={styles.greyText}>your selected workout plan is: </Text>
        <Text style={styles.iceTitleDark}> {selectedPlan}</Text>
         <Text style ={styles.greyText}>that means you should workout {workoutDays } times a week from now on to be fit enough for your race on: </Text>
@@ -117,21 +111,9 @@ return (<>
              <Text
                 style={styles.input}> {woIntervals ? ({woIntervals}) : "no intervals today" } </Text> 
           </View>
-
-         </View>
-     
-
-
-    {/*  */}
- 
-        
-      
+         </View> 
       </View>
-    </View>
-
-  
-    
- 
+    </View> 
   </> )
 }
 
@@ -142,15 +124,16 @@ const styles = StyleSheet.create({
   },
   container: {
     alignItems: 'center',
+   paddingTop:30,
     },
   box: {
+    height:480,
     marginTop:4,
     marginLeft:24,
     marginRight:24,
     paddingTop:10,
     paddingLeft:18,
     paddingRight:18,
-    height:660,
     backgroundColor:'#f7fff7',
     alignItems: 'center',
     },
@@ -197,7 +180,7 @@ const styles = StyleSheet.create({
   },
   nextWo: {
     flex:1,
-    marginTop:18,
+    marginTop:28,
     height:220,
     color: '#f7fff7',
     width: '100%',
@@ -258,41 +241,10 @@ const styles = StyleSheet.create({
   },
   iceTitleDark: {
     color: "#22181c",
-    fontSize:40,
+    fontSize:32,
     fontFamily: 'Iceberg',
-    
+  
   },
-radioGroupRow: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  marginTop: 2,
-  width: '100%',
-  paddingTop:2,
-  paddingBottom:12,
-  alignItems: 'center',
-},
-radioOption: {
-  alignItems: 'center',
-  marginHorizontal: 10,
-},
-radioCircle: {
-  width: 24,
-  height: 24,
-  borderRadius: 12,
-  borderWidth: 2,
-  borderColor: '#f7fff7',
-  backgroundColor: 'transparent',
-},
-
-radioCircleSelected: {
-  backgroundColor: '#8d8c8a',
-},
-radioLabel: {
-  marginTop: 4,
-  color: '#f7fff7',
-  fontSize: 14,
-  fontFamily: 'TurretMedium',
-},
 selectedValueText:{
     color: '#f7fff7',
     fontSize:20,
